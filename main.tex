@@ -1,0 +1,545 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage[left=1in,top=1in,right=1in,bottom=1in]{geometry}
+% \usepackage[margin=1in]{geometry}
+% \renewcommand{\baselinestretch}{1.2}
+% \setlength{\emergencystretch}{10pt}
+\setlength{\parindent}{20pt}
+
+\usepackage{algorithm,algpseudocode}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{amsmath, amssymb, amsthm, amscd}
+\usepackage[rightcaption]{sidecap}
+\usepackage{derivative}
+\usepackage{wrapfig}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{enumitem}% http://ctan.org/pkg/enumitem
+\usepackage{pythonhighlight}
+\usepackage{graphicx} %package to manage images
+\graphicspath{ {./images/} }
+\usepackage{pdfpages}
+\usepackage{verbatim}
+\usepackage{setspace}
+\usepackage{hyperref} % create hyper link
+\usepackage{multicol,multirow}  %% Figure in two columns
+\usepackage{bm}
+\usepackage{mathtools, nccmath}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Quang Nhat Le}
+\cfoot{\thepage}
+
+%setting to eliminate the warning
+\setlength{\headheight}{15pt}
+
+%change the size of title header
+\usepackage[small]{titlesec}
+
+% color  MATLAB
+% \usepackage{color} %red, green, blue, yellow, cyan, magenta, black, white 
+% \definecolor{mygreen}{RGB}{28,172,0} % color values Red, Green, Blue
+% \definecolor{mylilas}{RGB}{170,55,241}
+
+% color  PYTHON
+\usepackage{color}
+
+%reference part
+\usepackage{cleveref}
+% \usepackage{biblatex} %Imports biblatex package
+\usepackage[sorting=none]{biblatex}
+\addbibresource{mybib.bib} %Import the bibliography file
+
+%set up line spacing for the whole document
+% \doublespacing
+% \onehalfspacing
+\singlespacing
+% To make a part of the text of your document singlespaced, you can put:
+% \begin{singlespace}
+% at the beginning of the text you want singlespaced, and
+% \end{singlespace}
+
+
+\begin{document}
+
+\title{\textbf{EECS 498 - HW5}}
+\author{\textbf{Quang Le} \\ \textit{quangle@umich.edu}}
+\date{}
+% 	\vspace{-3cm}
+\maketitle
+
+\begin{sloppypar}
+% \noindent
+
+%-----------------------------PYTHON setting--------------------------------------------
+
+%%
+%%  Define some colours trying to mimic TigerJython. 
+%%
+\definecolor{keywordclr}{rgb}{0, 0.2, 0.667}      
+\definecolor{fnctionclr}{rgb}{0.467, 0, 0.533}
+\definecolor{builtinclr}{rgb}{0.467, 0, 0.533}
+\definecolor{symbolsclr}{rgb}{0.5, 0.25, 0.25}   
+\definecolor{commentclr}{rgb}{0, 0.5, 0}       
+\definecolor{stringsclr}{rgb}{0.8, 0.4, 0}     
+\definecolor{numbersclr}{rgb}{0.8, 0.2, 0}
+\definecolor{bckgrndclr}{rgb}{0.91, 0.95, 0.95}
+%%
+%%  Define a new language 'Jython'. We also want strings over multiple lines 
+%%  to be formatted as strings and not as comments.
+%%
+\lstdefinelanguage{Jython}%
+  { morekeywords={None,and,as,assert,break,class,continue,def,del,elif,%
+      else,except,finally,for,from,global,if,import,in,is,lambda,nonlocal,%
+      not,or,pass,print,raise,return,try,while,with,yield,repeat},%
+    moreprocnamekeys={class,def},%
+    %%  We use 'classoffset=1' to add built in functions (__builtins__)
+    classoffset=1,%
+    morekeywords={Exception,False,True,abs,all,any,ascii,bin,bool,bytearray,%
+      bytes,callable,chr,classmethod,compile,complex,copyright,delattr,dict,%
+      dir,divmod,enumerate,eval,exec,exit,float,format,frozenset,getattr,%
+      globals,hasattr,hash,help,hex,id,input,int,isinstance,issubclass,iter,%
+      len,license,list,locals,map,max,min,next,object,oct,open,ord,pow,%
+      property,quit,range,repr,reversed,round,set,setattr,slice,sorted,%
+      staticmethod,str,sum,super,tuple,type,vars,zip,inputInt,inputFloat,%
+      inputString,msgDlg,askYesNo,enum,clrScr,head,tail,indices,self},%
+    classoffset=0,%
+    sensitive=true,%
+    showstringspaces=false,%
+    morecomment=[l]\#,%
+    morestring=[b]',%
+    morestring=[b]",%
+    morestring=[b]{'''},%
+    morestring=[b]{"""}%
+  }
+%%
+%%  Set 'Jython' as default language and set all the colors and styles.
+%%
+% \lstset{language=Jython,% 
+%   extendedchars=true,%
+%   belowskip=0pt,%
+%   framexleftmargin=2pt,%
+%   framexrightmargin=2pt,%
+%   numbers=none,%
+%   basicstyle=\ttfamily\small,%
+%   numberstyle=\scriptsize,%
+%   keywordstyle=\color{keywordclr}\bfseries,% 
+%   stringstyle=\color{stringsclr},%
+%   commentstyle=\color{commentclr}\itshape,%
+%   procnamestyle=\color{fnctionclr},%
+%   tabsize=4,%
+%   classoffset=1,%
+%   keywordstyle=\color{builtinclr},%
+%   classoffset=0,
+%   backgroundcolor=\color{bckgrndclr}%
+% }
+
+%-------------------------------MATLAB setting----------------------------------------------
+
+% \lstset{
+%     % language=Matlab,%
+%     %basicstyle=\color{red},
+%     breaklines=true,%
+%     morekeywords={matlab2tikz},
+%     keywordstyle=\color{blue},%
+%     morekeywords=[2]{1}, keywordstyle=[2]{\color{black}},
+%     identifierstyle=\color{black},%
+%     stringstyle=\color{mylilas},
+%     commentstyle=\color{mygreen},%
+%     showstringspaces=false,%without this there will be a symbol in the places where there is a space
+%     numbers=left,%
+%     numberstyle={\tiny \color{black}},% size of the numbers
+%     numbersep=9pt, % this defines how far the numbers are from the text
+%     emph=[1]{for,end,break},emphstyle=[1]\color{red}, %some words to emphasise
+%     %emph=[2]{word1,word2}, emphstyle=[2]{style},    
+% }
+
+%---------------------------------------------------------------------
+
+%----------------------------------------------------------------------------
+% \includegraphics[width=5cm, height=4cm]{overleaf-logo}
+%----------------------------------------------------------------------------
+% \vspace{1.5cm}
+%---------------------------------------------------------------------------
+% \includegraphics[scale=1.2, angle=45]{overleaf-logo}
+%----------------------------------------------------------------------------
+% \includegraphics[width=\textwidth]{universe}
+%---------------------------------------------------------------------
+%Example, floating pictures. Text wrapping the figure
+% \begin{wrapfigure}{r}{0.25\textwidth} %this figure will be at the right
+%     \centering
+%     \includegraphics[width=0.25\textwidth]{mesh}
+% \end{wrapfigure}
+
+% \begin{wrapfigure}{l}{0.25\textwidth} %this figure will be at the left
+%     \centering
+%     \includegraphics[width=0.25\textwidth]{contour}
+% \end{wrapfigure}
+
+% %----------------------------------------------------------------------------
+% %Example of caption next to the figure
+% \begin{SCfigure}[0.5][h]
+% \caption{Using the picture of the universe again. 
+%          This caption will be on the right}
+% \includegraphics[width=0.6\textwidth]{universe}
+% \end{SCfigure}
+% %----------------------------------------------------------------------------
+
+% %----------------------------------------------------------------------------
+% %Labeling and referencing example
+% \begin{figure}[h]
+%     \centering
+%     \includegraphics[width=0.25\textwidth]{mesh}
+%     \caption{a nice plot}
+%     \label{fig:mesh1}
+% \end{figure}
+
+% As you can see in the figure \ref{fig:mesh1}, the function grows near 0. Also, in the page \pageref{fig:mesh1} is the same example.
+% %----------------------------------------------------------------------------
+
+% Chane to \section* if dont want numbering
+% \section*{Problem 1}
+\section{Problem 1}
+
+
+\subsection{Part a}
+\subsection{Part b}
+\subsection{Part c}
+\subsection{Part d}
+
+% Adding PDF pages
+% \includepdf[pages={1,3,5-7}]{mypdf.pdf}
+% \includepdf[pages={1-3,{},8,10-12}]{mypdf.pdf}
+
+
+% ADDING Python/ MATLAB code
+% \lstinputlisting[language=Matlab]{ex2_hw8_me564.m}
+% \lstinputlisting[language=Matlab, firstline=1, lastline=28]{ex1_hw10_rob501.m}
+% \lstinputlisting[language=Python, firstline=1, lastline=28]{pca.py}
+% \lstinputlisting{pca.py}
+
+\begin{python}
+import numpy as np
+import matplotlib.pyplot as plt
+import time
+
+def train_PCA(train_data):
+  ##### TODO: Implement here!! #####
+  # Note: do NOT use sklearn here!
+  # Hint: np.linalg.eig() might be useful
+  states = {
+      'transform_matrix': np.identity(train_data.shape[-1]),
+      'eigen_vals': np.ones(train_data.shape[-1])
+  }
+  ##### TODO: Implement here!! #####
+  return states
+
+# Load data
+start = time.time()
+images = np.load('pca_data.npy')
+num_data = images.shape[0]
+train_data = images.reshape(num_data, -1)
+
+\end{python}
+
+
+\begin{verbatim}
+The Jacobian of f is : 
+[- 3*x3^3 + 6*x2, (4*x2^3)/3 + 6*x1, -9*x1*x3^2]
+ 
+Evaluate Jacobian of f at xs is : 
+[21, 42, -9]
+\end{verbatim}
+
+
+% \begin{figure}[h!]
+%     \centering
+%     \includegraphics[scale = 0.6]{}
+%     \caption{}
+%     % \label{fig:mesh0}
+% \end{figure}
+
+
+
+% \begin{figure}[h!]
+%     \centering
+%     \includegraphics[width=1.0\linewidth]{}
+%     \caption{}
+%     % \label{fig:mesh0}
+% \end{figure}
+
+
+
+
+% \newpage
+\clearpage
+\section{Problem 2}
+
+\subsection{Part a}
+\subsection{Part b}
+\subsection{Part c}
+% \subsubsection*{Part c(ii)}
+
+
+
+% \newpage
+\clearpage
+\section{Problem 3}
+
+\subsection{Part a}
+\subsection{Part b}
+\subsection{Part c}
+% \subsubsection*{Part c(ii)}
+
+
+
+
+
+
+% %-------------------------- MORE TEMPLATE--------------------------------------------------
+% \subsection{Part a}
+% \subsection{Part b}
+% \subsection{Part c}
+
+% Adding PDF pages
+% \includepdf[pages={1,3,5-7}]{mypdf.pdf}
+% \includepdf[pages={2-3,{},4}]{ME564HW9_1-9wocode.pdf}
+% \includepdf[pages={1-3,{},8,10-12}]{mypdf.pdf}
+
+% no need caption
+% \lstinputlisting[language=Matlab]{ex2_hw8_me564.m}
+% \lstinputlisting[language=Matlab, firstline=1, lastline=28]{ex1_hw10_rob501.m}
+% \lstinputlisting[language=Python, firstline=1, lastline=28]{pca.py}
+% \lstinputlisting{pca.py}
+
+% INSERTING PYTHON CODES
+% \begin{python}
+
+% \end{python}
+
+% INSERTING OUTPUT TERMINAL
+% \begin{verbatim}
+
+% \end{verbatim}
+
+
+% \begin{figure}[h!]
+%     \centering
+%     \includegraphics[scale = 0.6]{ex3a_linear.png}
+%     \caption{3a code - LS }
+%     % \label{fig:mesh0}
+% \end{figure}
+
+% \begin{figure}[h!]
+%     \centering
+%     \includegraphics[width=1.0\linewidth]{c-i-random.png}
+%     \caption{Final value using random initialization}
+%     % \label{fig:mesh0}
+% \end{figure}
+
+% \begin{equation}
+%     m = K * (d+1)
+% \end{equation}
+
+\begin{equation}
+    \label{lowbound}
+    \underline{P}(x_q) = \min_{P(X_i|\pi_i) \in K(X_i|\pi_i)} \sum_{x_1,...,x_n \backslash x_q} \prod_{i=0}^n P(x_i|\pi_i)
+\end{equation}
+
+\begin{equation}
+    \label{Chap3:Eq2}
+    \begin{split}
+        \min_{\alpha}\quad & \frac{1}{2}{\alpha}^{T}Q \alpha - e^T\alpha \\
+        \text{subject to } \quad & y^T \alpha = 0 \\
+        \text{with } \quad &  0 \leq {\alpha}_i \leq C, i = \{ 1,2,..,62\}
+    \end{split}
+\end{equation}
+
+\begin{equation} \renewcommand{\arraystretch}{1.8}
+    \label{Chap3:Eq4}
+    \begin{pmatrix}
+        v_t \\ \omega_{t}
+    \end{pmatrix}=
+    \begin{pmatrix}
+        \dot{d}(t) \\ \dot{\theta} (t)
+    \end{pmatrix}= K_p \begin{pmatrix}
+        e_d (t) \\e_{\theta} (t)
+    \end{pmatrix} + K_i \int_{0}^{T} \begin{pmatrix}
+        e_d (t) \\e_{\theta} (t)
+    \end{pmatrix} \mathrm{dt} + K_d \frac{d}{\mathrm{dt}} \begin{pmatrix}
+        e_d (t) \\e_{\theta} (t)
+    \end{pmatrix}
+\end{equation}
+
+% \begin{enumerate}[label={(\arabic*)}]
+%   \item \textbf{How to compare 2 BIC values} \\
+ 
+  
+%   \item \textbf{How to choose best number of clusters given multiple runs with the same K} \\
+ 
+% \end{enumerate}
+
+
+% TABLE
+
+Include Tables like Table \ref{tab:table}. More info on tables: 
+\url{https://www.overleaf.com/learn/latex/Tables}.
+\begin{table}[h]
+    \centering
+    \begin{tabular}{c|cc}
+    \hline
+    Disruption $\setminus$ $X^t$ & Available &  Unavailable \\ \hline \hline
+    False      & $[0.952, 0.962]$ & $[0.038, 0.048]$ \\
+    True       & $[0.038, 0.048]$ & $[0.952, 0.962]$ \\ \hline
+    \end{tabular}
+    \caption{This is a table} 
+    \label{tab:table}
+\end{table}
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{||c|c|c||}
+        \hline
+        \rowcolor{lightgray}
+        \textbf{Feature} & \textbf{Description}                                & \textbf{Dimension} \\ [0.5ex]
+        \hline\hline
+        $f_1$            & Number of points in cluster                         & 1                  \\
+        $f_2$            & Minimum cluster distance from LiDAR                 & 1                  \\
+        $f_3$            & Cluster volume                                      & 1                  \\
+        $f_4$            & 3D covariance matrix of cluster                     & 6                  \\
+        $f_5$            & Normalized moment of inertia tensor                 & 6                  \\
+        $f_6$            & Slice feature of the cluster                        & 20                 \\
+        $f_7$            & Reflection intensity's distribution (mean, std dev) & 27                 \\ [0.5ex]
+        \hline
+    \end{tabular}
+    \caption{All features for human classification}
+    \label{Chap3:Table1}
+\end{table}
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{||c|c||}
+        \hline
+        \rowcolor{lightgray}
+        \textbf{Item}                 & \textbf{Specifications}                     \\ [0.5ex]
+        \hline\hline
+        Scanning rate                 & 10 scans/s                                  \\ \hline
+        Horizontal field of view      & $360^o$                                     \\ \hline
+        Horizontal angular resolution & $0.23^o$                                    \\ \hline
+        Vertical field of view        & $26.8^o$                                    \\ \hline
+        Vertical angular resolution   & $2^o$ (16 lines)                            \\ \hline
+        Detection range               & 40m for pavement, 120m for cars and foliage \\ \hline
+        Range accuracy                & 0.02m                                       \\ \hline
+        Wavelength of laser beam      & 905nm                                       \\ [0.5ex]
+        \hline
+    \end{tabular}
+    \caption{3D VLP-16 LiDAR properties \cite{vlp16}}
+    \label{Chap4:Table1}
+\end{table}
+
+
+% SUB-FIGURES
+% \begin{figure*}[h]
+%     \centering
+%     \begin{minipage}{\columnwidth}
+%         \includegraphics[width=0.48\linewidth]{figures/chap2_fig/shins_human.png}
+%         \hfill
+%         \includegraphics[width=0.48\linewidth]{figures/chap2_fig/shinshuman.png}
+%         \caption{Shins Human detection and following using LRS\cite{hfr_lrs}}
+%         \label{Chap2:Fig2}
+%     \end{minipage}\hfill
+% \end{figure*}
+
+% \begin{figure}[h]
+%     \centering
+%     \begin{subfigure}{.5\linewidth}
+%         \centering
+%         \includegraphics[width=1.0\linewidth,height = 0.5\linewidth]{figures/chap4_fig/Platform/lidar_property.png}
+%           \caption{LiDAR property \cite{lidarproperties}}
+%         \label{chap4:fig1:sub1}
+%     \end{subfigure}%
+%     \begin{subfigure}{.5\linewidth}
+%         \centering
+%         \includegraphics[width=1.0\linewidth,height = 0.5\linewidth]{figures/chap4_fig/Platform/Untitled Diagram-Page-12.drawio.png}
+%           \caption{Model calculate height of LiDAR \cite{calculateheight}}
+%         \label{chap4:fig1:sub2}
+%     \end{subfigure}
+%     \caption{VLP-16 LiDAR vertical field of view}
+%     \label{chap4:fig1}
+% \end{figure}
+
+
+% ALGORITHM
+\begin{algorithm}[h]
+    \caption{RANSAC(Random Sample Consensus) ground plane detection algorithm  }
+    \label{Chap3:Alg1}
+    \begin{algorithmic}[1]
+        \Ensure Point cloud data $P^*$ of the plane model
+        \Require Point cloud data $P$, where $p_i=[x,y,z] \in P$;
+        \State Randomly select three non-collinear unique points $\{p_i, p_j, p_k\}$ from $P$;
+        \State Compute the model coefficients from the three points $(ax + by + cz + d = 0)$;
+        \State Compute the distances from all $p \in P^* \subset P$ to the plane model $(a,b,c,d)$;
+        \State Count the number of points $p^* \in P$ whose distance $d$ to the plane model falls between $0 \leq |d| \leq |d_t|$, where $d_t$ represents a user specified threshold.
+    \end{algorithmic}
+\end{algorithm}
+
+
+\begin{algorithm}[h]
+    \caption{Euclidean clustering algorithm  \cite{rusu_thesis,cnn_uav}}
+    \label{Chap3:Alg2}
+    \begin{algorithmic}[1]
+        \Ensure List of point cloud clusters C
+        \Require Point cloud data $P$, where $p_i=[x,y,z] \in P$;
+        \State Create a Kd-tree representation for $P$;
+        \State Setup an empty list of clusters $C$, and a queue of points to be checked $Q$;
+        \For{every point $p_i \in P$}
+        \State Add $p_i$ to the current queue $Q$;
+        \For {every point $p_i \in Q$}
+        \State Search for the set ${p_i}^k$ of point neighbours of $p_i$ s.t a sphere with radius $r,d^*$
+        \State For every neighbour ${p_i}^k \in {p_i}^k$ check if the point has already been processed, else add it to Q;
+        \EndFor
+        \State When the list of all points in $Q$ has been processed, add $Q$ to the list of clusters $C$, and $Q \gets \emptyset$
+        \EndFor
+        \State Return the algorithm terminates when all point $\in P$ have been processed;
+    \end{algorithmic}
+\end{algorithm}
+
+
+
+% %----------------------------------------------------------------------------
+% \begin{figure}[h!]
+%     \centering
+%     \includegraphics[width=1.0\linewidth, height = 3.2 in]{6b_d2.jpg}
+%     \caption{Response of linear and non-linear model of $d2$}
+%     \label{fig:mesh4}
+% \end{figure}
+
+% \begin{figure}[h]
+%     \centering
+%     \hspace*{2cm}
+%     \includegraphics[scale=0.8]{figures/chap3_fig/pid/pid_framework_2.png}
+%     \caption{Human target distance and direction of mobile robot \cite{hfr_lrs}}
+%     \label{Chap3:Fig20}
+% \end{figure}
+
+
+
+%----------------------------------------------------------------------------
+%Generating a list of figures
+
+% \listoffigures
+% \lstlistoflistings
+
+%------------------------------References------------------------------------------
+
+\clearpage
+\nocite{*}
+% \printbibliography[heading=none]
+\printbibliography
+
+
+\end{sloppypar}
+\end{document}
+
+
