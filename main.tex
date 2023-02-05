@@ -356,6 +356,12 @@ Evaluate Jacobian of f at xs is :
     \end{split}
 \end{equation}
 
+\begin{align}
+    \min_{\alpha}\quad      & \frac{1}{2}{\alpha}^{T}Q \alpha - e^T\alpha \\
+    \text{subject to }\quad & y^T \alpha = 0                              \\
+    \text{with }  \quad     & 0 \leq {\alpha}_i \leq C, i = \{ 1,2 \}
+\end{align}
+
 \begin{equation} \renewcommand{\arraystretch}{1.8}
     \label{Chap3:Eq4}
     \begin{pmatrix}
@@ -381,7 +387,7 @@ Evaluate Jacobian of f at xs is :
 % \end{enumerate}
 
 
-% TABLE
+% -------------------------------TABLE-----------------------------------
 
 Include Tables like Table \ref{tab:table}. More info on tables: 
 \url{https://www.overleaf.com/learn/latex/Tables}.
@@ -470,7 +476,7 @@ Include Tables like Table \ref{tab:table}. More info on tables:
 % \end{figure}
 
 
-% ALGORITHM
+% ----------------------ALGORITHM-------------------------------
 \begin{algorithm}[h]
     \caption{RANSAC(Random Sample Consensus) ground plane detection algorithm  }
     \label{Chap3:Alg1}
